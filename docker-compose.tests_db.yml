@@ -1,0 +1,17 @@
+services:
+  db-for-tests:
+    image: postgres:14-alpine
+    container_name: tests-db
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - PGPORT=${DB_PORT}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - tests_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  tests_db_data:

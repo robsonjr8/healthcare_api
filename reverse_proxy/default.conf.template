@@ -1,0 +1,28 @@
+upstream healthcare{
+    server healthcare-api:$PORT;
+}
+
+server {
+    listen $REVERSE_PROXY_PORT;
+    server_name $REVERSE_PROXY_HOST;
+
+    access_log  /var/log/nginx/healthcare_api_access.log;
+    error_log /var/log/nginx/healthcare_api_error.log debug;
+
+    location /static/ {
+        alias /var/www/healthcare.com/staticfiles/;
+    }
+
+    location / {
+        proxy_pass http://healthcare;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Url-Scheme $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        add_header 'Access-Control-Allow-Origin' $http_origin;
+        add_header 'Access-Control-Allow-Credentials' 'true';
+        add_header 'Access-Control-Allow-Methods' 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT';
+        add_header 'Access-Control-Allow-Headers' 'Content-Type, Accept';
+    }
+}

@@ -1,0 +1,33 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "app"
+dynamic = ["version"]
+description = "Healthcare Patient Management API Development"
+authors = [
+    { name = "Robson Júnior", email = "robson.marques.junior@protonmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.1.4",
+    "djangorestframework>=3.15.2",
+    "drf-yasg>=1.21.8",
+    "fhir-resources>=7.1.0",
+    "gunicorn>=23.0.0",
+    "psycopg2-binary>=2.9.10",
+    "local",
+    "django-cors-headers>=4.6.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "django-extensions>=3.2.3",
+    "python-dotenv>=1.0.1",
+    "ruff>=0.8.4",
+]
+
+[tool.uv.sources]
+local = { path = "src/app/" }
